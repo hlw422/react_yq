@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react'
 import { useAppContext } from '../../contexts/AppContext'
 import { Pencil } from 'lucide-react'
 import { getRelativeTime } from '../../utils/dateUtils'
+import { updateDocument as updateDocAPI } from '../../services/docService'
 
 const DocTitle = ({ document }) => {
   const { state, actions } = useAppContext()
@@ -23,21 +24,14 @@ const DocTitle = ({ document }) => {
   }
 
   // 保存标题
-  const handleSave = () => {
+  const handleSave = async () => {
     if (title.trim() && title !== document.title) {
-      // 使用 Context action 更新标题（通过更新文档内容触发）
-      const docs = [...state.documents]
-      const index = docs.findIndex(d => d.id === document.id)
-      if (index !== -1) {
-        docs[index] = { ...docs[index], title: title.trim(), updatedAt: new Date().toISOString() }
-        
-        // 直接 dispatch 更新状态并同步 localStorage
-        actions.setActiveDoc(null) // 先清空
-        setTimeout(() => {
-          // 手动更新 localStorage 和 context
-          localStorage.setItem('yuque_documents', JSON.stringify(docs))
-          window.location.reload() // 刷新页面以同步最新数据（简单方案）
-        }, 10)
+      try {
+        await actions.updateActiveContent(document.content) // 先触发当前内容保存
+        await updateDocAPI(document.id, { title: title.trim() })
+        window.location.reload()
+      } catch (err) {
+        console.error('保存标题失败:', err)
       }
     }
     setIsEditing(false)
