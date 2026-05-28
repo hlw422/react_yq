@@ -1,0 +1,286 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 全局样式重置与基础样式 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-family: 'PingFang SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  min-height: 100vh;
+  background-color: #ffffff;
+  color: #1f1f1f;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* 深色模式全局样式 */
+.dark body,
+.dark {
+  background-color: #1e1e1e;
+  color: #cccccc;
+}
+
+/* 滚动条美化 */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d9d9d9;
+  border-radius: 3px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #4a4a4a;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #bfbfbf;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #5a5a5a;
+}
+
+/* 代码高亮主题导入 */
+pre code.hljs {
+  padding: 1em;
+  border-radius: 8px;
+  background: #f6f8fa !important;
+}
+
+.dark pre code.hljs {
+  background: #0e0e0e !important;
+}
+
+/* ========== Markdown 预览区样式 ========== */
+.prose-container {
+  color: #1f1f1f;
+  line-height: 1.75;
+  font-size: 15px;
+}
+
+.dark .prose-container {
+  color: #cccccc;
+}
+
+.prose-custom {
+  max-width: none !important;
+}
+
+/* 标题样式 */
+.prose-custom h1,
+.prose-custom h2,
+.prose-custom h3,
+.prose-custom h4,
+.prose-custom h5,
+.prose-custom h6 {
+  font-weight: 600;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+  line-height: 1.4;
+}
+
+.prose-custom h1 {
+  font-size: 2em;
+  padding-bottom: 0.3em;
+  border-bottom: 1px solid #eaecef;
+}
+
+.prose-custom h2 {
+  font-size: 1.5em;
+  padding-bottom: 0.3em;
+  border-bottom: 1px solid #eaecef;
+}
+
+.prose-custom h3 {
+  font-size: 1.25em;
+}
+
+/* 段落和列表 */
+.prose-custom p {
+  margin-bottom: 1em;
+}
+
+.prose-custom ul,
+.prose-custom ol {
+  padding-left: 2em;
+  margin-bottom: 1em;
+}
+
+.prose-custom li {
+  margin-bottom: 0.25em;
+}
+
+.prose-custom ul li {
+  list-style-type: disc;
+}
+
+.prose-custom ol li {
+  list-style-type: decimal;
+}
+
+/* 引用块 */
+.prose-custom blockquote {
+  margin: 1em 0;
+  padding: 0 1em;
+  color: #6a737d;
+  border-left: 0.25em solid #dfe2e5;
+}
+
+.dark .prose-custom blockquote {
+  color: #999;
+  border-left-color: #4a4a4a;
+}
+
+/* 代码样式 */
+.prose-custom code {
+  background: rgba(27,31,35,0.05);
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+  font-family: Consolas, Monaco, monospace;
+  font-size: 0.9em;
+}
+
+.dark .prose-custom code {
+  background: rgba(255,255,255,0.1);
+}
+
+.prose-custom pre {
+  background: #f6f8fa;
+  border-radius: 6px;
+  padding: 16px;
+  overflow-x: auto;
+  margin: 1em 0;
+}
+
+.dark .prose-custom pre {
+  background: #282c34;
+}
+
+.prose-custom pre code {
+  background: transparent;
+  padding: 0;
+  font-size: 14px;
+}
+
+/* 表格样式 */
+.prose-custom table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1em 0;
+}
+
+.prose-custom th,
+.prose-custom td {
+  border: 1px solid #dfe2e5;
+  padding: 6px 13px;
+}
+
+.prose-custom th {
+  font-weight: 600;
+  background: #f6f8fa;
+}
+
+.dark .prose-custom th,
+.dark .prose-custom td {
+  border-color: #4a4a4a;
+}
+
+.dark .prose-custom th {
+  background: #2d333b;
+}
+
+.prose-custom tr:nth-child(2n) {
+  background: #f6f8fa;
+}
+
+.dark .prose-custom tr:nth-child(2n) {
+  background: #22272b;
+}
+
+/* 分割线 */
+.prose-custom hr {
+  height: 0.25em;
+  padding: 0;
+  margin: 24px 0;
+  background: #e1e4e8;
+  border: 0;
+}
+
+.dark .prose-custom hr {
+  background: #4a4a4a;
+}
+
+/* 图片 */
+.prose-custom img {
+  max-width: 100%;
+  box-sizing: content-box;
+  background: #fff;
+}
+
+/* 链接 */
+.prose-custom a {
+  color: #0366d6;
+  text-decoration: none;
+}
+
+.prose-custom a:hover {
+  text-decoration: underline;
+}
+
+.dark .prose-custom a {
+  color: #58a6ff;
+}
+
+/* 强调 */
+.prose-custom strong {
+  font-weight: 600;
+}
+
+.prose-custom em {
+  font-style: italic;
+}
+
+/* ========== 动画关键帧（全局） ========== */
+@keyframes fadeIn {
+  from { 
+    opacity: 0; 
+  }
+  to { 
+    opacity: 1; 
+  }
+}
+
+@keyframes scaleIn {
+  from { 
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to { 
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.2s ease-out;
+}
+
+.animate-scaleIn {
+  animation: scaleIn 0.2s ease-out;
+}
