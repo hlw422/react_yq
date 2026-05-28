@@ -1,10 +1,11 @@
-import React from 'react'
+import { useState } from 'react'
 import { useAppContext } from '../../contexts/AppContext'
-import { Edit3, Eye, Columns, Download } from 'lucide-react'
+import { Edit3, Eye, Columns, Download, Check } from 'lucide-react'
 import { exportToMarkdown } from '../../utils/exportUtils'
 
-const Toolbar = ({ document }) => {
+const Toolbar = ({ document: doc }) => {
   const { state, actions } = useAppContext()
+  const [exported, setExported] = useState(false)
 
   const modes = [
     { id: 'edit', icon: Edit3, label: '编辑' },
@@ -13,7 +14,12 @@ const Toolbar = ({ document }) => {
   ]
 
   const handleExport = () => {
-    exportToMarkdown(document)
+    if (!doc) return
+    const success = exportToMarkdown(doc)
+    if (success) {
+      setExported(true)
+      setTimeout(() => setExported(false), 2000)
+    }
   }
 
   return (
@@ -43,19 +49,26 @@ const Toolbar = ({ document }) => {
         {/* 导出按钮 */}
         <button
           onClick={handleExport}
-          className="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium
-                     text-yuque-text-secondary dark:text-dark-text-secondary 
-                     hover:bg-gray-100 dark:hover:bg-dark-surface rounded-md transition-colors"
+          disabled={!doc || exported}
+          className={`flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-md transition-all duration-200
+            ${exported
+              ? 'text-green-600 bg-green-50 dark:bg-green-900/20'
+              : 'text-yuque-text-secondary dark:text-dark-text-secondary hover:bg-gray-100 dark:hover:bg-dark-surface'
+            } ${!doc ? 'opacity-40 cursor-not-allowed' : ''}`}
           title="导出Markdown"
         >
-          <Download size={16} />
-          <span>导出MD</span>
+          {exported ? (
+            <>
+              <Check size={16} />
+              <span>已导出</span>
+            </>
+          ) : (
+            <>
+              <Download size={16} />
+              <span>导出MD</span>
+            </>
+          )}
         </button>
-
-        {/* TOC目录按钮（可选） */}
-        {/* <button className="p-2 hover:bg-gray-100 dark:hover:bg-dark-surface rounded-md transition-colors" title="目录">
-          <ListOrdered size={16} className="text-yuque-text-secondary" />
-        </button> */}
       </div>
     </div>
   )

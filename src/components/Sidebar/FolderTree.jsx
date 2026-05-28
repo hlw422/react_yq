@@ -11,13 +11,18 @@ const FolderItem = ({ folder }) => {
   const [openMenuId, setOpenMenuId] = useState(null)
   const [deleteDocTarget, setDeleteDocTarget] = useState(null)
 
-  // 该文件夹下的文档
+  // 该文件夹下的文档（含搜索过滤）
+  const query = (state.searchQuery || '').toLowerCase().trim()
   const folderDocs = state.documents
     .filter(doc => doc.folderId === folder.id)
     .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
+    .filter(doc =>
+      !query || doc.title.toLowerCase().includes(query)
+    )
 
-  const isSelected = state.activeFolderId === folder.id
+  // 搜索时如果有匹配结果则强制展开
   const isExpanded = folder.isExpanded
+  const shouldExpand = isExpanded || (query && folderDocs.length > 0)
 
   // 重命名
   const handleRename = () => {
@@ -133,7 +138,7 @@ const FolderItem = ({ folder }) => {
       </div>
 
       {/* 展开时显示下属文档 */}
-      {isExpanded && folderDocs.length > 0 && (
+      {shouldExpand && folderDocs.length > 0 && (
         <div className="ml-6 mt-0.5 space-y-0.5">
           {folderDocs.map((doc) => (
             <div
@@ -177,8 +182,8 @@ const FolderItem = ({ folder }) => {
         </div>
       )}
 
-      {/* 展开但无文档时显示提示 */}
-      {isExpanded && folderDocs.length === 0 && (
+      {/* 展开但无文档/无匹配结果 */}
+      {shouldExpand && folderDocs.length === 0 && !query && (
         <div className="ml-6 mt-1 py-2 text-xs text-yuque-text-hint dark:text-dark-text-hint">
           暂无文档，点击上方新建按钮创建
         </div>
