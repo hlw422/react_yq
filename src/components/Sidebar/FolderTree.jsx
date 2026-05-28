@@ -20,8 +20,9 @@ const FolderItem = ({ folder }) => {
       !query || doc.title.toLowerCase().includes(query)
     )
 
-  // 搜索时如果有匹配结果则强制展开
+  const isSelected = state.activeFolderId === folder.id
   const isExpanded = folder.isExpanded
+  // 搜索时如果有匹配结果则强制展开
   const shouldExpand = isExpanded || (query && folderDocs.length > 0)
 
   // 重命名
